@@ -267,9 +267,12 @@ def execute_take(item_id):
     there is no such item in the room, this function prints
     "You cannot take that."
     """
-    pass
-    
-
+    for y in range(0, len(current_room["items"])-1):
+        if item_id == current_room["items"][y]["id"]:
+            inventory.append(current_room["items"][y])
+            del current_room["items"][y]
+            print(current_room)
+            
 def execute_drop(item_id):
     """This function takes an item_id as an argument and moves this item from the
     player's inventory to list of items in the current room. However, if there is
@@ -363,4 +366,5 @@ def main():
 
         # Execute the player's command
         execute_command(command)
+
 
