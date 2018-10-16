@@ -5,8 +5,13 @@ from player import *
 from items import *
 from gameparser import *
 
-for x in 
-inventory_weight = 
+def inventory_weight():
+    inv_weight = []
+    for x in range(0, len(inventory)):
+        inv_weight.append(float(inventory[x]["mass"]))
+    return sum(inv_weight)
+    
+    
 def list_of_items(items):
     """This function takes a list of items (see items.py for the definition) and
     returns a comma-separated list of item names (as a string). For example:
@@ -69,7 +74,8 @@ def print_inventory_items(items):
 
     """
     items_in_inventory = list_of_items(items)
-    print("You have " + items_in_inventory + ". \n") 
+    if len(items_in_inventory)>0:
+        print("You have " + items_in_inventory + "." + "\n")
 
 
 
@@ -241,6 +247,7 @@ def execute_go(direction):
     """
     global current_room
     current_room = move(current_room["exits"], direction)
+    
 
 
 def execute_take(item_id):
@@ -249,12 +256,16 @@ def execute_take(item_id):
     there is no such item in the room, this function prints
     "You cannot take that."
     """
-for y in range(0, len(current_room["items"])):
-    if item_id == current_room["items"][y]["id"]:
-        if current_room["items"][y]["mass"]
-            inventory.append(current_room["items"][y])
-            del current_room["items"][y]
-            return
+    for y in range(0, len(current_room["items"])):
+        if item_id == current_room["items"][y]["id"]:
+            attempted_carry = round(inventory_weight()+ float(current_room["items"][y]["mass"]), 2)
+            if attempted_carry >3:
+                print("You are attempting to carry " + str(attempted_carry) + "kg. You can only carry 3kg.")
+            else:    
+                if current_room["items"][y]["mass"]:
+                    inventory.append(current_room["items"][y])
+                    del current_room["items"][y]
+                    return
             
     
 
@@ -265,7 +276,6 @@ def execute_drop(item_id):
     """
     for y in range(0, len(inventory)):
         if item_id == inventory[y]["id"]:
-            print(item_id == inventory[y]["id"])
             current_room["items"].append(inventory[y])
             del inventory[y]
             return
@@ -344,9 +354,12 @@ def move(exits, direction):
 
 # This is the entry point of our program
 def main():
-
+    print("Collect all the items around the map and drop them off at the reception to win!")
     # Main game loop
     while True:
+        if len(rooms["Reception"]["items"])== 6:
+            print("Congratulations! You have won the game.")
+            exit()
         # Display game status (room description, inventory etc.)
         print_room(current_room)
         print_inventory_items(inventory)
