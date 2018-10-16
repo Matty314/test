@@ -23,8 +23,8 @@ def remove_punct(text):
         if x.isalpha()==True or x.isdigit()==True or x.isspace()==True:
             removed_punctuation_text+=x
     return removed_punctuation_text
-
-            
+    
+    
 def remove_spaces(text):
     """This function is used to remove leading and trailing spaces from a string.
     It takes a string and returns a new string with does not have leading and
@@ -43,6 +43,7 @@ def remove_spaces(text):
     """
     return text.strip()
 
+
 def normalise_input(user_input):
     """This function removes all punctuation, leading and trailing
     spaces from a string, and converts the string to lower case.
@@ -56,7 +57,6 @@ def normalise_input(user_input):
     'help'
     """
     return remove_spaces(remove_punct(user_input)).lower()
-
     
 def display_room(room):
     """This function takes a room as an input and nicely displays its name
@@ -79,7 +79,8 @@ def display_room(room):
     """
     print("\n" + room["name"].upper())
     print("\n" + room["description"] + "\n")
-  
+
+    
 def exit_leads_to(exits, direction):
     """This function takes a dictionary of exits and a direction (a particular
     exit taken from this dictionary). It returns the name of the room into which
@@ -92,7 +93,7 @@ def exit_leads_to(exits, direction):
     >>> exit_leads_to(rooms["Tutor"]["exits"], "west")
     'Reception'
     """
-    return exits[direction]
+    return rooms[exits[direction]]["name"]
     
 
 def print_menu_line(direction, leads_to):
@@ -127,14 +128,9 @@ def print_menu(exits):
     Where do you want to go?
     """
     print("You can:")
-    for x in exits:
-        exit_leads = exits[x]
-        print_menu_line(x,exit_leads)
+    for direction in exits:
+        print_menu_line(direction, exit_leads_to(exits, direction))
     print("Where do you want to go?")
-    
-    # COMPLETE THIS PART:
-    # Iterate over available exits:
-    #     and for each exit print the appropriate menu line
 
 
 def is_valid_exit(exits, user_input):
@@ -160,7 +156,8 @@ def is_valid_exit(exits, user_input):
     for x in exits:
         if x!= user_input:
             return False
-            
+
+
 def menu(exits):
     """This function, given a dictionary of possible exits from a room, prints the
     menu of exits using print_menu() function. It then prompts the player to type
@@ -173,8 +170,6 @@ def menu(exits):
 
     # Repeat until the player enter a valid choice
     while True:
-
-
         # COMPLETE THIS PART:
         
         # Display menu
@@ -195,6 +190,10 @@ def menu(exits):
             return menu(exits)
             # If so, return the player's choice
         
+
+
+
+
 def move(exits, direction):
     """This function returns the room into which the player will move if, from a
     dictionary "exits" of avaiable exits, they choose to move towards the exit
@@ -207,9 +206,8 @@ def move(exits, direction):
     >>> move(rooms["Reception"]["exits"], "west") == rooms["Office"]
     False
     """
-    for x in rooms:
-        if exits[direction] == rooms[x]["name"]:
-            return rooms[x]
+    return rooms[exits[direction]]
+
 
 # This is the entry point of our program
 def main():
@@ -223,6 +221,7 @@ def main():
 
         # What are the possible exits from the current room?
         exits = current_room["exits"]
+        pass
 
         # Show the menu with exits and ask the player
         direction = menu(exits)
@@ -234,5 +233,6 @@ def main():
 # Are we being run as a script? If so, run main().
 # '__main__' is the name of the scope in which top-level code executes.
 # See https://docs.python.org/3.4/library/__main__.html for explanation
+
 if __name__ == "__main__":
     main()
