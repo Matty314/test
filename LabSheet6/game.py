@@ -5,12 +5,8 @@ from player import *
 from items import *
 from gameparser import *
 
-def inventory_weight():
-	inv_weight=[]
-	for x in range(0, len(inventory)):
-		inv_weight.append(float(inventory[x]["mass"]))
-	return sum(inv_weight)
-    
+for x in 
+inventory_weight = 
 def list_of_items(items):
     """This function takes a list of items (see items.py for the definition) and
     returns a comma-separated list of item names (as a string). For example:
@@ -253,14 +249,12 @@ def execute_take(item_id):
     there is no such item in the room, this function prints
     "You cannot take that."
     """
-    for y in range(0, len(current_room["items"])):
-        if float(current_room["items"][y]["mass"]) + inventory_weight() > float(3):
-            print("You are attempting to carry " + str(round(inventory_weight()+ float(current_room["items"][y]["mass"]),2)) + "kg, you can only carry 3kg")
-        else:
-            if item_id == current_room["items"][y]["id"]:
-                inventory.append(current_room["items"][y])
-                del current_room["items"][y]
-                return
+for y in range(0, len(current_room["items"])):
+    if item_id == current_room["items"][y]["id"]:
+        if current_room["items"][y]["mass"]
+            inventory.append(current_room["items"][y])
+            del current_room["items"][y]
+            return
             
     
 
@@ -271,6 +265,7 @@ def execute_drop(item_id):
     """
     for y in range(0, len(inventory)):
         if item_id == inventory[y]["id"]:
+            print(item_id == inventory[y]["id"])
             current_room["items"].append(inventory[y])
             del inventory[y]
             return
